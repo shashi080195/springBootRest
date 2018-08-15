@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,60 +25,58 @@ import com.example.demo.service.MyEmailService;
 import com.example.demo.service.OtpService;
 
 /**
- * @author shashi shekhar
- * Aug 14, 2018
+ * @author shashi shekhar Aug 14, 2018
  */
 @Controller
 public class OtpController {
-	
+
 	// private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	public OtpService otpService;
-	
+
 	@Autowired
 	public MyEmailService myEmailService;
 
 	/**
-	 * for this otp service key will be the device id ,so that if otp is sent to a 
+	 * for this otp service key will be the device id ,so that if otp is sent to a
 	 * device then it will be only validated from that particular device
 	 */
 	@RequestMapping(value = "/generateOtp", method = RequestMethod.GET)
-	public ResponseEntity generateOtp(){
-		try{
-		int otp = otpService.generateOTP("shashi");
-		 
+	public ResponseEntity generateOtp() {
+		try {
+			int otp = otpService.generateOTP("shashi");
 
-		String message = String.valueOf(otp);
-		
-		myEmailService.sendOtpMessage("shashi.shekhar225@gmail.com", "OTP -SpringBoot", message);
+			String message = String.valueOf(otp);
+
+			myEmailService.sendOtpMessage("shashi.shekhar225@gmail.com", "OTP -SpringBoot", message);
 			return ResponseEntity.status(200).body("sucess");
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return ResponseEntity.status(400).body("fail");
 		}
-		
+
 	}
-	
-	@RequestMapping(value ="/validateOtp", method = RequestMethod.GET)
-	public @ResponseBody String validateOtp(@RequestParam("otpnum") int otpnum){	
-		final String SUCCESS = "Entered Otp is valid";	
+
+	@RequestMapping(value = "/validateOtp", method = RequestMethod.GET)
+	public @ResponseBody String validateOtp(@RequestParam("otpnum") int otpnum) {
+		final String SUCCESS = "Entered Otp is valid";
 		final String FAIL = "Entered Otp is NOT valid. Please Retry!";
 		String username = "shashi";
-		if(otpnum >= 0){
+		if (otpnum >= 0) {
 			int serverOtp = otpService.getOtp(username);
-			
-			if(serverOtp > 0){
-				if(otpnum == serverOtp){
+
+			if (serverOtp > 0) {
+				if (otpnum == serverOtp) {
 					otpService.clearOTP(username);
 					return ("Entered Otp is valid");
-				}else{
-					return SUCCESS;	
+				} else {
+					return SUCCESS;
 				}
-			}else {
-				return FAIL;			
+			} else {
+				return FAIL;
 			}
-		}else {
-			return FAIL;	
+		} else {
+			return FAIL;
 		}
 	}
 }

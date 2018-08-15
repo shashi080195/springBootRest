@@ -12,25 +12,25 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class MyEmailService  {
+public class MyEmailService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private JavaMailSender javaMailSender;
-	 
+
 	public void sendOtpMessage(String to, String subject, String message) {
-		 
-		 SimpleMailMessage simpleMailMessage = new SimpleMailMessage(); 
-		 simpleMailMessage.setTo(to); 
-		 simpleMailMessage.setSubject(subject); 
-		 simpleMailMessage.setText(message);
-		 
-		 logger.info(subject);
-		 logger.info(to);
-		 logger.info(message);
-		 
-		 //Uncomment to send mail
-		 javaMailSender.send(simpleMailMessage);
+
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+		simpleMailMessage.setTo(to);
+		simpleMailMessage.setSubject(subject);
+		simpleMailMessage.setText(message);
+
+		logger.info(subject);
+		logger.info(to);
+		logger.info(message);
+
+		// Uncomment to send mail
+		javaMailSender.send(simpleMailMessage);
 	}
 }

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import com.example.demo.repositories.*;
@@ -24,39 +23,36 @@ import java.util.Optional;
 //import services
 import com.example.demo.service.OtpService;
 import javax.validation.Valid;
+
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	public OtpService otpService;
+
 	@RequestMapping(value = "/User", method = RequestMethod.GET)
 	public List<User> getAllUser() {
-	  return userRepository.findAll();
+		return userRepository.findAll();
 	}
-	
-	@RequestMapping(value="/User", method = RequestMethod.POST)
-	public ResponseEntity<Object> addUser(@Valid @RequestBody User users){
+
+	@RequestMapping(value = "/User", method = RequestMethod.POST)
+	public ResponseEntity<Object> addUser(@Valid @RequestBody User users) {
 		User savedUser = userRepository.insert(users);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{uname}")
 				.buildAndExpand(savedUser.getUname()).toUri();
 		return ResponseEntity.created(location).build();
 	}
-	
-	@RequestMapping(value="/User/{uname}",method=RequestMethod.GET)
-	public Optional<User> getUserByName(@PathVariable("uname") String uname){
-		Optional<User> user = userRepository.findByUname(uname);
-		 if (!user.isPresent())
-		      throw new UserNotFoundException("user not found - " + uname);
 
-//		    Resource<User> resource = new Resource<User>(user.get());
-//			 ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllStudents());
-//	
-//				resource.add(linkTo.withRel("all-students"));
-		    return user;
+	@RequestMapping(value = "/User/{uname}", method = RequestMethod.GET)
+	public Optional<User> getUserByName(@PathVariable("uname") String uname) {
+		Optional<User> user = userRepository.findByUname(uname);
+		if (!user.isPresent())
+			throw new UserNotFoundException("user not found - " + uname);
+		return user;
 	}
-	
+
 }

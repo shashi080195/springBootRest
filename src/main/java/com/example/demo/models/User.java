@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="user")
+@Document(collection = "user")
 @TypeAlias("user")
 public class User {
 
@@ -18,17 +18,19 @@ public class User {
 	private String uname;
 	private String email;
 	private String password;
+
 	public User() {
-		
+
 	}
-	
-	public User(ObjectId _id,String name,String email,String uname,String password) {
+
+	public User(ObjectId _id, String name, String email, String uname, String password) {
 		this._id = _id;
 		this.name = name;
 		this.uname = uname;
-		this.email=email;
+		this.email = email;
 		this.password = password;
 	}
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -44,7 +46,6 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getUname() {
 		return uname;

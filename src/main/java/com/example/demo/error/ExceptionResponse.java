@@ -1,4 +1,5 @@
 package com.example.demo.error;
+
 import java.util.Date;
 
 public class ExceptionResponse {

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import com.example.demo.repositories.*;
+import com.example.demo.error.RedundantUserException;
 import com.example.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.hateoas.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.web.bind.annotation.RequestParam;
@@ -23,17 +25,26 @@ import java.util.List;
 import java.util.Optional;
 //import services
 import com.example.demo.service.OtpService;
+import com.example.demo.service.UserDetailsServiceImpl;
+import com.google.gson.Gson;
+
 import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	@Autowired
+	private UserDetailsServiceImpl userService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	public OtpService otpService;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	Gson gson = new Gson();
 
 	public UserController(BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -45,13 +56,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/User", method = RequestMethod.POST)
-	public ResponseEntity<Object> addUser(@Valid @RequestBody User users) {
-		users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
-		User savedUser = userRepository.insert(users);
+	public ResponseEntity addUser(@Valid @RequestBody User users) {
+		if (userService.checkUserAvailibility(users)) {
+			users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
+			User savedUser = userRepository.insert(users);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{Username}")
-				.buildAndExpand(savedUser.getUsername()).toUri();
-		return ResponseEntity.created(location).build();
+			UserResponse response = new UserResponse("1", "user created successfully");
+
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("fail");
+
 	}
 
 	@RequestMapping(value = "/User/{Username}", method = RequestMethod.GET)

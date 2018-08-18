@@ -3,6 +3,7 @@ package com.example.demo.models;
 import javax.validation.constraints.NotNull;
 
 import org.bson.types.ObjectId;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,7 @@ public class User {
 	private ObjectId _id;
 	private String name;
 	@NotNull(message = "Username can't be null")
+	// @UniqueElements(message = "Username is not available")
 	private String username;
 	private String email;
 	private String password;

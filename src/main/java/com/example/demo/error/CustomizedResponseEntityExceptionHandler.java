@@ -21,31 +21,35 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
   @ExceptionHandler(Exception.class)
   public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
-        request.getDescription(false));
+    ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(UserNotFoundException.class)
   public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException ex,
       WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
-        request.getDescription(false));
+    ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(BadEntryRequestException.class)
   public final ResponseEntity<ExceptionResponse> handleBadRequestException(BadEntryRequestException ex,
       WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
-        request.getDescription(false));
+    ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
 
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
       HttpStatus status, WebRequest request) {
-    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed", ex.getMessage());
+    ExceptionResponse exceptionResponse = new ExceptionResponse("Validation Failed", ex.getMessage());
     return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(RedundantUserException.class)
+  public final ResponseEntity<ExceptionResponse> handleRedundantUserException(RedundantUserException ex,
+      WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
   }
 }

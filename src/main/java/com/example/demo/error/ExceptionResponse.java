@@ -2,24 +2,14 @@ package com.example.demo.error;
 
 import java.util.Date;
 
-public class ExceptionResponse {
-  private Date timestamp;
-  private String message;
+import com.example.demo.models.UserResponse;
+
+public class ExceptionResponse extends UserResponse {
   private String details;
 
-  public ExceptionResponse(Date timestamp, String message, String details) {
-    super();
-    this.timestamp = timestamp;
-    this.message = message;
+  public ExceptionResponse(String message, String details) {
+    super("0", message);
     this.details = details;
-  }
-
-  public Date getTimestamp() {
-    return timestamp;
-  }
-
-  public String getMessage() {
-    return message;
   }
 
   public String getDetails() {

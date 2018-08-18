@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,8 +31,13 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	public OtpService otpService;
+
+	public UserController(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
 	@RequestMapping(value = "/User", method = RequestMethod.GET)
 	public List<User> getAllUser() {
@@ -40,19 +46,19 @@ public class UserController {
 
 	@RequestMapping(value = "/User", method = RequestMethod.POST)
 	public ResponseEntity<Object> addUser(@Valid @RequestBody User users) {
+		users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
 		User savedUser = userRepository.insert(users);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{uname}")
-				.buildAndExpand(savedUser.getUname()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{Username}")
+				.buildAndExpand(savedUser.getUsername()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 
-	@RequestMapping(value = "/User/{uname}", method = RequestMethod.GET)
-	public Optional<User> getUserByName(@PathVariable("uname") String uname) {
-		Optional<User> user = userRepository.findByUname(uname);
+	@RequestMapping(value = "/User/{Username}", method = RequestMethod.GET)
+	public Optional<User> getUserByName(@PathVariable("Username") String Username) {
+		Optional<User> user = userRepository.findByUsername(Username);
 		if (!user.isPresent())
-			throw new UserNotFoundException("user not found - " + uname);
+			throw new UserNotFoundException("user not found - " + Username);
 		return user;
 	}
-
 }

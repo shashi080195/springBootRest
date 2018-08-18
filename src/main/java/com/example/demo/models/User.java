@@ -14,8 +14,8 @@ public class User {
 	@Id
 	private ObjectId _id;
 	private String name;
-	@NotNull(message = "Uname can't be null")
-	private String uname;
+	@NotNull(message = "Username can't be null")
+	private String username;
 	private String email;
 	private String password;
 
@@ -23,11 +23,11 @@ public class User {
 
 	}
 
-	public User(ObjectId _id, String name, String email, String uname, String password) {
+	public User(ObjectId _id, String name, String email, String username, String password) {
 		this._id = _id;
-		this.name = name;
-		this.uname = uname;
-		this.email = email;
+		// this.name = name;
+		this.username = username;
+		// this.email = email;
 		this.password = password;
 	}
 
@@ -47,12 +47,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getUname() {
-		return uname;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUname(String uname) {
-		this.uname = uname;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {

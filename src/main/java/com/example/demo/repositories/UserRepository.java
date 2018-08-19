@@ -1,6 +1,7 @@
 package com.example.demo.repositories;
 
 import com.example.demo.models.User;
+import com.mongodb.operation.UpdateUserOperation;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +12,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
 	Optional<User> findBy_id(long id);
 
-	List<User> findByName(String name);
-
 	Optional<User> findByUsername(String username);
 
 	Optional<User> findByEmail(String email);
+
 }

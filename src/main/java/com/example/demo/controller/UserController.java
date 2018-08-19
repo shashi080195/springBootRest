@@ -57,7 +57,7 @@ public class UserController {
 
 	@RequestMapping(value = "/User", method = RequestMethod.POST)
 	public ResponseEntity addUser(@Valid @RequestBody User users) {
-		if (userService.checkUserAvailibility(users)) {
+		if (userService.checkUserAvailibility(users) == 1) {
 			users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
 			User savedUser = userRepository.insert(users);
 
@@ -75,5 +75,24 @@ public class UserController {
 		if (!user.isPresent())
 			throw new UserNotFoundException("user not found - " + Username);
 		return user;
+	}
+
+	@RequestMapping(value = "/singUp", method = RequestMethod.POST)
+	public ResponseEntity generateOtp(@Valid @RequestBody User user) {
+		try {
+			// int otp = otpService.generateOTP(user.getEmail());
+			// String message = String.valueOf(otp);
+			// myEmailService.sendOtpMessage(user.getEmail(), "OTP -SpringBoot", message);
+			// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			// user.setIsVerified(false);
+			// userRepository.insert(user);
+			logger.info("here");
+			UserResponse userResponse = new UserResponse("1", "otp generated");
+			return ResponseEntity.status(200).body(userResponse);
+		} catch (Exception ex) {
+			UserResponse userResponse = new UserResponse("0", "unable to generate otp");
+			return ResponseEntity.status(400).body(userResponse);
+		}
+
 	}
 }

@@ -14,23 +14,22 @@ public class User {
 
 	@Id
 	private ObjectId _id;
-	private String name;
 	@NotNull(message = "Username can't be null")
-	// @UniqueElements(message = "Username is not available")
 	private String username;
 	private String email;
 	private String password;
+	private boolean isVerified;
 
 	public User() {
 
 	}
 
-	public User(ObjectId _id, String name, String email, String username, String password) {
+	public User(ObjectId _id, String email, String username, String password, boolean isVerified) {
 		this._id = _id;
-		// this.name = name;
 		this.username = username;
-		// this.email = email;
+		this.email = email;
 		this.password = password;
+		this.isVerified = isVerified;
 	}
 
 	public ObjectId get_id() {
@@ -39,14 +38,6 @@ public class User {
 
 	public void set_id(ObjectId _id) {
 		this._id = _id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getUsername() {
@@ -71,5 +62,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setIsVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+
+	public boolean getIsVerified() {
+		return this.isVerified;
 	}
 }

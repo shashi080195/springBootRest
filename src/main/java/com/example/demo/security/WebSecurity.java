@@ -15,7 +15,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
-import static com.example.demo.security.SecurityConstants.LOGIN_URL;;
+import static com.example.demo.security.SecurityConstants.LOGIN_URL;
+import static com.example.demo.security.SecurityConstants.SINGUP_URL;
+import static com.example.demo.security.SecurityConstants.VALIDATE_OTP_URL;;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -30,8 +32,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers(LOGIN_URL).permitAll().anyRequest()
-                .authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers(LOGIN_URL, SINGUP_URL, VALIDATE_OTP_URL)
+                .permitAll().anyRequest().authenticated().and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userDetailsService))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -66,16 +66,16 @@ public class OtpController {
 			int otp = otpService.generateOTP(user.getEmail());
 			String message = String.valueOf(otp);
 			if (userService.checkUserAvailibility(user) == AVAILABLE_USER) {
-				myEmailService.sendOtpMessage(user.getEmail(), "OTP -SpringBoot", message);
+				// myEmailService.sendOtpMessage(user.getEmail(), "OTP -SpringBoot", message);
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 				user.setIsVerified(false);
 				userRepository.insert(user);
-				userResponse = new UserResponse("1", "otp generated");
+				userResponse = new UserResponse("1", message);
 				return ResponseEntity.status(200).body(userResponse);
 			} else {
 				if (userService.isUserAvailable(user)) {
-					myEmailService.sendOtpMessage(user.getEmail(), "OTP -SpringBoot", message);
-					userResponse = new UserResponse("1", "otp generated");
+					// myEmailService.sendOtpMessage(user.getEmail(), "OTP -SpringBoot", message);
+					userResponse = new UserResponse("1", message);
 					return ResponseEntity.status(200).body(userResponse);
 				}
 				userResponse = new UserResponse("0", "already registered user");

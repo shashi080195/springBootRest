@@ -8,4 +8,5 @@ public class SecurityConstants {
     public static final String LOGIN_URL = "/login";
     public static final String SINGUP_URL = "/generateOtp";
     public static final String VALIDATE_OTP_URL = "/validateOtp";
+    public static final String FORGOT_PASSWORD_URL = "/forgotPassword";
 }

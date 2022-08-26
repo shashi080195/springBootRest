@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.example.demo.controller.customannotations.ExecutionLog;
 import com.example.demo.error.RedundantUserException;
 import com.example.demo.repositories.*;
 import static java.util.Collections.emptyList;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,6 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return false;
     }
 
+    @ExecutionLog
     public boolean isUserAvailable(com.example.demo.models.User user) {
         Optional<com.example.demo.models.User> applicationUser = applicationUserRepository
                 .findByUsername(user.getUsername());
@@ -59,5 +63,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    @ExecutionLog
+    public List<com.example.demo.models.User> getAllUser() {
+        return applicationUserRepository.findAll();
     }
 }

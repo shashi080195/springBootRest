@@ -8,8 +8,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.ToString;
+
 @Document(collection = "user")
 @TypeAlias("user")
+@ToString
 public class User {
 
 	@Id

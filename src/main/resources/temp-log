@@ -1,0 +1,86 @@
+<!-- <configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+        <timestampFormat>yyyy-MM-dd'T'HH:mm:ss</timestampFormat>
+        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+          <prettyPrint>false</prettyPrint>
+        </jsonFormatter>
+        <appendLineSeparator>true</appendLineSeparator>
+      </layout>
+    </encoder>
+  </appender>
+  <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/Users/shashishekhar/Documents/personal/app.log</file>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+        <timestampFormat>yyyy-MM-dd'T'HH:mm:ss</timestampFormat>
+        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+          <prettyPrint>false</prettyPrint>
+        </jsonFormatter>
+        <appendLineSeparator>true</appendLineSeparator>
+      </layout>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/Users/shashishekhar/Documents/personal/app.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="RequestResponseAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/Users/shashishekhar/Documents/personal/app-rr.log</file>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+        <timestampFormat>yyyy-MM-dd'T'HH:mm:ss</timestampFormat>
+        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+          <prettyPrint>false</prettyPrint>
+        </jsonFormatter>
+        <appendLineSeparator>true</appendLineSeparator>
+      </layout>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/Users/shashishekhar/Documents/personal/app-rr.log.%d{yyyy-MM-dd}.gz
+      </fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="EntityAuditAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/Users/shashishekhar/Documents/personal/app-audit.log</file>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+        <timestampFormat>yyyy-MM-dd'T'HH:mm:ss</timestampFormat>
+        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">-ltr
+          <prettyPrint>true</prettyPrint>
+        </jsonFormatter>
+      </layout>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/Users/shashishekhar/Documents/personal/app-audit.log.%d{yyyy-MM-dd}.gz
+      </fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <logger name="com.example.demo.filters.ReqResLogging" level="INFO"
+    additivity="false">
+    <appender-ref ref="RequestResponseAppender"/>
+  </logger>
+
+  <logger name="com.example.demo.filters.FileEntityListener" level="INFO"
+    additivity="false">
+    <appender-ref ref="EntityAuditAppender"/>
+  </logger>
+
+  <logger name="com.example.demo" level="INFO" additivity="false">
+    <appender-ref ref="ROLLING"/>
+  </logger>
+
+  <logger name="reactor.netty.http.server.AccessLog" level="DEBUG" additivity="false">
+    <appender-ref ref="RequestResponseAppender"/>
+  </logger>
+
+  <root level="ERROR">
+    <appender-ref ref="ROLLING"/>
+  </root>
+</configuration> -->

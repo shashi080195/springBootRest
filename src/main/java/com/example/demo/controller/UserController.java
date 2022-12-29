@@ -3,6 +3,7 @@ package com.example.demo.controller;
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 // import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import com.example.demo.repositories.*;
+import com.example.demo.controller.customannotations.ExecutionLog;
 import com.example.demo.error.RedundantUserException;
 import com.example.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@Component
 public class UserController {
 
 	@Autowired
@@ -75,10 +75,7 @@ public class UserController {
 
 	@RequestMapping(value = "/User/{Username}", method = RequestMethod.GET)
 	public Optional<User> getUserByName(@PathVariable("Username") String Username) {
-		Optional<User> user = userRepository.findByUsername(Username);
-		if (!user.isPresent())
-			throw new UserNotFoundException("user not found - " + Username);
-		return user;
+		return userDetailsServiceImpl.getUserByUserName(Username);
 	}
 
 	@RequestMapping(value = "/singUp", method = RequestMethod.POST)

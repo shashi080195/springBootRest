@@ -4,7 +4,6 @@ import static java.lang.String.format;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,11 +11,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
 @Component
+@Slf4j
 public class AnnotatedPointCutAspect {
-    private static final java.util.logging.Logger log = Logger
-            .getLogger(AnnotatedPointCutAspect.class.getName());
 
     @Pointcut("@annotation(com.example.demo.controller.customannotations.ExecutionLog)")
     public void methodAnnotatedWithExecutionLog() {
@@ -36,7 +36,7 @@ public class AnnotatedPointCutAspect {
                             Arrays.toString(pjp.getArgs()), new Date().toString()));
             return resp;
         } catch (Throwable e) {
-            log.warning(
+            log.error(
                     format("Method %s executed with %s arguments , completed at - %s,with error - %s",
                             pjp.getSignature(),
                             Arrays.toString(pjp.getArgs()), new Date().toString(), e.getMessage()));

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.example.demo.controller.UserNotFoundException;
 import com.example.demo.controller.customannotations.ExecutionLog;
 import com.example.demo.error.RedundantUserException;
 import com.example.demo.repositories.*;
@@ -68,5 +69,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @ExecutionLog
     public List<com.example.demo.models.User> getAllUser() {
         return applicationUserRepository.findAll();
+    }
+
+    @ExecutionLog
+    public Optional<com.example.demo.models.User> getUserByUserName(String userName) {
+        Optional<com.example.demo.models.User> user = applicationUserRepository.findByUsername(userName);
+        if (!user.isPresent())
+            throw new UserNotFoundException("user not found - " + userName);
+        return user;
     }
 }
